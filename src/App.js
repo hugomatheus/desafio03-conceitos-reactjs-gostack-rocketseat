@@ -6,6 +6,7 @@ import api from "./services/api";
 import { useState } from "react";
 
 function App() {
+  const [repositories, setRepositories] = useState([]);
   async function handleAddRepository() {
     try {
       const response = await api.post("/repositories", {
@@ -27,7 +28,7 @@ function App() {
       );
       repositories.splice(repositoryIndex, 1);
       setRepositories([...repositories]);
-      // other way 
+      // other way
       // const newRepositories = repositories.filter(repository => repository.id !== id);
       // setRepositories(newRepositories);
     } catch (error) {
@@ -37,10 +38,10 @@ function App() {
 
   useEffect(() => {
     api.get("/repositories").then((response) => {
-      setRepositories([...response.data]);
+      setRepositories(response.data);
     });
   }, []);
-  const [repositories, setRepositories] = useState([]);
+
   return (
     <div>
       <ul data-testid="repository-list">
